@@ -37,14 +37,14 @@ jobs:
           # Create cosmosdb with default api
           az cosmosdb create --name copilot-nodejs-todo --resource-group rg-copilot-nodejs-todo
           # Create database todos with collection tasks
-          az cosmosdb sql database create --account-name copilot-nodejs-todo --resource-group rg-copilot-nodejs-todo --name todos
-          az cosmosdb sql container create --account-name copilot-nodejs-todo --resource-group rg-copilot-nodejs-todo --database-name todos --name tasks --partition-key-path /_partitionKey --throughput 400
+          az cosmosdb sql database create --account-name copilot-nodejs-todo-buffdev --resource-group rg-copilot-nodejs-todo --name todos
+          az cosmosdb sql container create --account-name copilot-nodejs-todo-buffdev --resource-group rg-copilot-nodejs-todo --database-name todos --name tasks --partition-key-path /_partitionKey --throughput 400
           # Deploy webapp using node 18
           az webapp up --sku F1 --name nodejs-todo-sinedied --resource-group rg-copilot-nodejs-todo --runtime "node|18-lts"
           # Retrieve cosmos endpoint
-          cosmos_endpoint=$(az cosmosdb show --name copilot-nodejs-todo --resource-group rg-copilot-nodejs-todo --query documentEndpoint --output tsv)
+          cosmos_endpoint=$(az cosmosdb show --name copilot-nodejs-todo-buffdev --resource-group rg-copilot-nodejs-todo --query documentEndpoint --output tsv)
           # Retrieve cosmos key
-          cosmos_key=$(az cosmosdb keys list --name copilot-nodejs-todo --resource-group rg-copilot-nodejs-todo --query primaryMasterKey --output tsv)
+          cosmos_key=$(az cosmosdb keys list --name copilot-nodejs-todo-buffdev --resource-group rg-copilot-nodejs-todo --query primaryMasterKey --output tsv)
           # Set cosmos variables in web app
           az webapp config appsettings set --name nodejs-todo-sinedied --resource-group rg-copilot-nodejs-todo --settings COSMOS_ENDPOINT=$cosmos_endpoint COSMOS_KEY=$cosmos_key
 
